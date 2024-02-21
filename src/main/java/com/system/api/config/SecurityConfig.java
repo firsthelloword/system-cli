@@ -37,42 +37,21 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
-
-//    @Bean
-//    public AuthenticationManagerBuilder authenticationManagerBuilder() throws Exception {
-//        AuthenticationManagerBuilder authenticationManagerBuilder = new AuthenticationManagerBuilder(null);
-//        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-//        return authenticationManagerBuilder;
-//    }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationConfiguration authenticationConfiguration) throws Exception {
         AuthenticationManager authenticationManager = authenticationConfiguration.getAuthenticationManager();
 
-        http
-                .csrf().disable()
+        http.csrf(x -> x.disable())
                 .authenticationManager(authenticationManager)
-                .exceptionHandling()
-                .accessDeniedHandler(customAccessDeniedHandler)
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+                .exceptionHandling(x -> x.accessDeniedHandler(customAccessDeniedHandler))
+                .sessionManagement(x -> x.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // 添加JWT过滤器
-                .authorizeRequests()
-                .antMatchers("/login", "/api/token").permitAll() // 提供一个路径用于交换JWT
+                .formLogin(x -> x.disable()); // 禁用表单登录，以支持JWT方式
+        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/login", "/api/token").permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .formLogin().disable(); // 禁用表单登录，以支持JWT方式
-
+        );
         return http.build();
     }
-
-//    @Bean
-//    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-//        return new JwtAuthenticationFilter();
-//    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {

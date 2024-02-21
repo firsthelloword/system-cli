@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.14</version>
+        <version>3.2.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
@@ -15,7 +15,10 @@
     <name>system-api</name>
     <description>system-api</description>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
+        <mybatis.plus.version>3.5.5</mybatis.plus.version>
+        <knife4j.version>4.0.0</knife4j.version>
+        <hutool.version>5.8.22</hutool.version>
     </properties>
     <dependencies>
         <dependency>
@@ -25,8 +28,8 @@
 
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.5.3.1</version>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <version>${mybatis.plus.version}</version>
         </dependency>
 
 
@@ -53,11 +56,11 @@
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter-test</artifactId>
-            <version>2.3.1</version>
+            <version>3.0.1</version>
             <scope>test</scope>
         </dependency>
 
-         <dependency>
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${commons-lang3.version}</version>
@@ -67,13 +70,13 @@
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
-            <version>4.0.0</version>
+            <version>${knife4j.version}</version>
         </dependency>
 
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.8.22</version>
+            <version>${hutool.version}</version>
         </dependency>
 
         <dependency>
