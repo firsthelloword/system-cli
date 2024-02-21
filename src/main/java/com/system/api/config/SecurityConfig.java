@@ -1,6 +1,6 @@
 package com.system.api.config;
 
-import com.system.api.filter.JwtAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,25 +12,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import com.system.api.filter.JwtAuthenticationFilter;
 
 @Configuration
 //@EnableWebSecurity
 public class SecurityConfig {
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-    private final UserDetailsService userDetailsService;
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
-    private final CustomAccessDeniedHandler customAccessDeniedHandler;
-
-    public SecurityConfig(UserDetailsService userDetailsService,
-                          JwtAuthenticationFilter jwtAuthenticationFilter,
-                          CustomAccessDeniedHandler customAccessDeniedHandler) {
-
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-        this.userDetailsService = userDetailsService;
-        this.customAccessDeniedHandler = customAccessDeniedHandler;
-    }
+    @Autowired
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
